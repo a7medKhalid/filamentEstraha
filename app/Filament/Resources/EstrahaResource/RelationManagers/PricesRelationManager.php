@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EstrahaResource\RelationManagers;
 
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -48,6 +49,12 @@ class PricesRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
+                Tables\Actions\Action::make('Reset')
+                ->requiresConfirmation()
+                ->action(
+                    fn(Table $table) => $table->getQuery()->delete()
+                )
+                ->color('danger')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
