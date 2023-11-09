@@ -74,14 +74,15 @@ class PricesRelationManager extends RelationManager
                 Tables\Actions\Action::make('Discount')
                     ->icon('heroicon-o-tag')
                 ->form(
-                    [
-                        Forms\Components\TextInput::make('discount')
+
+                        fn(Model $record) => [Forms\Components\TextInput::make('discount')
                             ->prefix('SAR')
                             ->autofocus()
                             ->numeric()
                             ->minValue(0)
-                            ->required(),
-                    ]
+                            ->maxValue($record->price )
+                            ->required()]
+
                 )
                 ->action(
                     fn(Model $record, array $data) => $this->priceService->addDiscount($record->id, $data['discount'])
