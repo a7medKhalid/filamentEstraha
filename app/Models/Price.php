@@ -12,9 +12,6 @@ class Price extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'price' => PriceCast::class,
-    ];
 
     public function estraha()
     {
