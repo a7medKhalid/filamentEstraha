@@ -20,7 +20,9 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
 
-            $table->foreignId('estraha_id');
+            $table->foreignId('estraha_id')
+                ->constrained()
+                ->onDelete('cascade');
         });
     }
 
