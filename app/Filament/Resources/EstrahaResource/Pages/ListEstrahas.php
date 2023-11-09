@@ -6,6 +6,8 @@ use App\Filament\Resources\EstrahaResource;
 use App\Models\Estraha;
 use Filament;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -39,7 +41,8 @@ class ListEstrahas extends ListRecords
             )
             ->action(
                 fn ($data) => $this->sendMail($data)
-            ),
+            )
+            ->visible(fn () => Estraha::first() != null)
         ];
     }
 
