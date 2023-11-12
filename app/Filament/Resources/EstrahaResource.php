@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\PriceForm;
 use App\Filament\Resources\EstrahaResource\Pages;
 use App\Filament\Resources\EstrahaResource\RelationManagers;
 use App\Models\Estraha;
@@ -49,25 +50,11 @@ class EstrahaResource extends Resource
 
                 Forms\Components\Repeater::make('prices')
                     ->schema(
-                        [
-                            Forms\Components\TextInput::make('price')
-                                ->prefix('SAR')
-                                ->autofocus()
-                                ->numeric()
-                                ->minValue(0)
-                                ->required(),
-
-                            Forms\Components\DatePicker::make('start_date')
-                                ->required(),
-
-                            Forms\Components\DatePicker::make('end_date')
-                                ->required(),
-
-                        ]
+                        fn(PriceForm $form) => $form->getForm()
                     )
 
             ])
-        
+
             ;
     }
 

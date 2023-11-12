@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EstrahaResource\RelationManagers;
 
+use App\Filament\Forms\PriceForm;
 use App\Models\Price;
 use App\Repositories\PriceRepository;
 use App\Services\Mailers\NiceMailerService;
@@ -30,21 +31,9 @@ class PricesRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('price')
-                    ->prefix('SAR')
-                    ->autofocus()
-                    ->numeric()
-                    ->minValue(0)
-                    ->required(),
-
-                Forms\Components\DatePicker::make('start_date')
-                    ->required(),
-
-                Forms\Components\DatePicker::make('end_date')
-                    ->required(),
-
-            ]);
+            ->schema(
+                fn(PriceForm $form) => $form->getForm()
+            );
     }
 
     public function table(Table $table): Table
