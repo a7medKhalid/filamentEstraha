@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Forms\PriceForm;
 use App\Filament\Resources\EstrahaResource\Pages;
 use App\Filament\Resources\EstrahaResource\RelationManagers;
+use App\Filament\Resources\EstrahaResource\Widgets\EstrahaOverview;
 use App\Models\Estraha;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -116,6 +117,13 @@ class EstrahaResource extends Resource
             'index' => Pages\ListEstrahas::route('/'),
             'create' => Pages\CreateEstraha::route('/create'),
             'edit' => Pages\EditEstraha::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            EstrahaOverview::class
         ];
     }
 }

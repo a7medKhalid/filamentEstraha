@@ -50,4 +50,11 @@ class ListEstrahas extends ListRecords
         //sen mail message
         dd('mail sent');
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            EstrahaResource\Widgets\EstrahaOverview::class,
+        ];
+    }
 }
