@@ -26,32 +26,41 @@ class EstrahaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->autofocus()
-                    ->required()
-                    ->maxLength(255)
-                    ->unique(Estraha::class, 'name', ignoreRecord: true),
 
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Section::make('Estraha Information')
+                ->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->autofocus()
+                        ->required()
+                        ->maxLength(255)
+                        ->unique(Estraha::class, 'name', ignoreRecord: true),
 
-                Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->preload()
-                    ->searchable()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->autofocus()
-                            ->required()
-                            ->maxLength(255),
+                    Forms\Components\TextInput::make('description')
+                        ->required()
+                        ->maxLength(255),
+
+                    Forms\Components\Select::make('category_id')
+                        ->relationship('category', 'name')
+                        ->preload()
+                        ->searchable()
+                        ->createOptionForm([
+                            Forms\Components\TextInput::make('name')
+                                ->autofocus()
+                                ->required()
+                                ->maxLength(255),
                         ])
-                    ->required(),
+                        ->required(),
+                ]),
 
-                Forms\Components\Repeater::make('prices')
-                    ->schema(
-                        fn(PriceForm $form) => $form->getForm()
-                    )->disabledOn('edit')
+                Forms\Components\Section::make('Prices')
+                    ->schema([
+                        Forms\Components\Repeater::make('prices')
+                            ->schema(
+                                fn(PriceForm $form) => $form->getForm()
+                            )
+                            ->disabledOn('edit'),
+                    ])->hiddenOn('edit')
+
 
 
             ])
