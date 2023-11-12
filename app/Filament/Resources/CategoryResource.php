@@ -34,9 +34,27 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('estrahas_count')
+                ->counts('estrahas')
+                    ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('Estraha Count')
+                    ->form([
+
+                        Forms\Components\TextInput::make('max')
+                            ->label('Max')
+                            ->type('number')
+                            ->minValue(0)
+                            ->step(1),
+                    ])
+                    ->query(function (Builder $query, array $data){
+                        if (isset($data['max'])) {
+                            $query->has('estrahas', '<=', $data['max']);
+                        }
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
