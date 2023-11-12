@@ -45,9 +45,30 @@ class EstrahaResource extends Resource
                             ->required()
                             ->maxLength(255),
                         ])
-                    ->required()
+                    ->required(),
 
-            ]);
+                Forms\Components\Repeater::make('prices')
+                    ->schema(
+                        [
+                            Forms\Components\TextInput::make('price')
+                                ->prefix('SAR')
+                                ->autofocus()
+                                ->numeric()
+                                ->minValue(0)
+                                ->required(),
+
+                            Forms\Components\DatePicker::make('start_date')
+                                ->required(),
+
+                            Forms\Components\DatePicker::make('end_date')
+                                ->required(),
+
+                        ]
+                    )
+
+            ])
+        
+            ;
     }
 
     public static function table(Table $table): Table
