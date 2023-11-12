@@ -10,6 +10,7 @@ use App\Services\PriceService;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -55,7 +56,14 @@ class PricesRelationManager extends RelationManager
                 Tables\Actions\Action::make('Reset')
                 ->requiresConfirmation()
                 ->action(
-                    fn(Table $table) => $table->getQuery()->delete()
+                    function(Table $table) {
+                        $table->getQuery()->delete();
+                        Notification::make()
+                            ->title('Prices Reset')
+                            ->body('All prices have been reset')
+                            ->success()
+                            ->send();
+                    }
                 )
                 ->color('danger')
             ])
