@@ -30,7 +30,7 @@ class EstrahaResource extends Resource
                     ->autofocus()
                     ->required()
                     ->maxLength(255)
-                    ->unique(Estraha::class, 'name'),
+                    ->unique(Estraha::class, 'name', ignoreRecord: true),
 
                 Forms\Components\TextInput::make('description')
                     ->required()
@@ -51,7 +51,8 @@ class EstrahaResource extends Resource
                 Forms\Components\Repeater::make('prices')
                     ->schema(
                         fn(PriceForm $form) => $form->getForm()
-                    )
+                    )->disabledOn('edit')
+
 
             ])
 
