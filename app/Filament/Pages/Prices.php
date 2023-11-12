@@ -7,6 +7,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
+use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -40,6 +41,10 @@ class Prices extends Page implements HasForms, HasTable
                 TextColumn::make('estraha.name')
                     ->searchable()
                     ->sortable(),
+                ColorColumn::make('status')
+                ->default(fn($record) => $this->isActive($record) ? 'green' : 'red')
+                ->tooltip(fn($record) => $this->isActive($record) ? 'Active' : 'Inactive')
+
             ])
             ->filters([
                 Filter::make('Date')
@@ -62,5 +67,10 @@ class Prices extends Page implements HasForms, HasTable
                         $query->whereBetween('start_date', [$data['start_date'], $data['end_date']]);
                     }),
             ]);
+    }
+
+    private function isActive($record)
+    {
+        return now()->between($record->start_date, $record->end_date);
     }
 }
