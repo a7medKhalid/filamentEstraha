@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\EstrahaForm;
 use App\Filament\Forms\PriceForm;
 use App\Filament\Resources\EstrahaResource\Pages;
 use App\Filament\Resources\EstrahaResource\RelationManagers;
@@ -29,29 +30,9 @@ class EstrahaResource extends Resource
             ->schema([
 
                 Forms\Components\Section::make('Estraha Information')
-                ->schema([
-                    Forms\Components\TextInput::make('name')
-                        ->autofocus()
-                        ->required()
-                        ->maxLength(255)
-                        ->unique(Estraha::class, 'name', ignoreRecord: true),
-
-                    Forms\Components\TextInput::make('description')
-                        ->required()
-                        ->maxLength(255),
-
-                    Forms\Components\Select::make('category_id')
-                        ->relationship('category', 'name')
-                        ->preload()
-                        ->searchable()
-                        ->createOptionForm([
-                            Forms\Components\TextInput::make('name')
-                                ->autofocus()
-                                ->required()
-                                ->maxLength(255),
-                        ])
-                        ->required(),
-                ]),
+                ->schema(
+                   fn(EstrahaForm $form) => $form->getForm()
+                ),
 
                 Forms\Components\Section::make('Prices')
                     ->schema([
@@ -117,6 +98,7 @@ class EstrahaResource extends Resource
             'index' => Pages\ListEstrahas::route('/'),
             'create' => Pages\CreateEstraha::route('/create'),
             'edit' => Pages\EditEstraha::route('/{record}/edit'),
+            'view' => Pages\ViewEstraha::route('/{record}'),
         ];
     }
 

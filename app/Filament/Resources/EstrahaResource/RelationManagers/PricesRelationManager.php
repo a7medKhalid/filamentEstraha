@@ -66,6 +66,7 @@ class PricesRelationManager extends RelationManager
                     }
                 )
                 ->color('danger')
+                ->hidden('view')
             ])
             ->actions([
                 Tables\Actions\Action::make('Discount')
@@ -83,7 +84,8 @@ class PricesRelationManager extends RelationManager
                 )
                 ->action(
                     fn(Model $record, array $data) => $this->priceService->addDiscount($record->id, $data['discount'])
-                )
+                )                ->hidden('view')
+
                 ,
                 Tables\Actions\DeleteAction::make(),
 
