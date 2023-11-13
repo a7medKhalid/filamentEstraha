@@ -13,7 +13,12 @@ class EstrahaCategoryOverview extends BaseWidget
 
         $stats = [];
 
-        foreach (Category::all() as $Category){
+        $categories = Category::withCount('estrahas')
+            ->orderBy('estrahas_count', 'desc')
+            ->limit(6)
+            ->get();
+
+        foreach ($categories as $Category){
             $stats[] = Stat::make($Category->name, $Category->estrahas()->count());
         }
         return $stats;
