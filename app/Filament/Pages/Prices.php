@@ -66,7 +66,8 @@ class Prices extends Page implements HasForms, HasTable
                     ->query(function (Builder $query, array $data){
                         $query->whereBetween('start_date', [$data['start_date'], $data['end_date']]);
                     }),
-            ]);
+            ])
+            ->defaultGroup('start_date');
     }
 
     private function isActive($record)
