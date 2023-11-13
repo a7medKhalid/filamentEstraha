@@ -42,6 +42,7 @@ class EstrahaResource extends Resource
                             )
                             ->disabledOn('edit'),
                     ])->hiddenOn('edit')
+                ->hiddenOn('view')
 
 
 
@@ -82,7 +83,9 @@ class EstrahaResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                     ExportBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(fn (Estraha $estraha) => route('filament.admin.resources.estrahas.view', $estraha))
+            ;
     }
 
     public static function getRelations(): array
